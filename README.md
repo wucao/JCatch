@@ -1,3 +1,67 @@
+## 什么是JCatch
+当程序发生异常(Exception), 处理方式一般是通过日志文件记录下来, 这种方式很容易被忽略, 而且查询起来比较麻烦.
+
+JCatch提供了一种方案, 当程序发生异常时, 通过JCatch平台接口提交到JCatch平台, 由JCatch平台统一管理所有异常, 这样可以方便查询, 并且JCatch平台提供异常监控功能, 当应用程序发生异常时会以邮件方式提醒相关人员.
+
+![应用列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14861.jpeg)
+
+![应用列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14869.jpeg)
+
+![异常列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14863.jpeg)
+
+![异常详情1](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14865.jpeg)
+
+![异常详情2](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14866.jpeg)
+
+![邮件通知](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14868.jpeg)
+
+![PHP异常](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14870.jpeg)
+
+
+## 部署JCatch
+### MySQL数据库
+使用MySQL数据库执行doc/sql.sql中的SQL脚本创建表
+
+修改src/main/resources/MyBatis.xml和src/main/resources/generatorConfig.xml文件中的数据库连接
+
+### 配置登录管理员账户
+默认管理员账户: 用户名 admin  密码 xxg
+
+管理员登录基于Spring Security实现, 可以配置src/main/resources/springSecurity.xml文件
+
+### 支持邮件订阅功能
+邮件订阅功能会在应用发生异常时, 每小时发送一封邮件给应用订阅者, 邮件内容为这个小时内的异常信息, 配置src/main/resources/messageService.xml支持邮件订阅
+
+### 打包
+`mvn package`
+
+## API
+### 提交一条Exception
+URL: http://<your baseUrl>/api/submitExceptionJson?appId=<your appId>
+
+请求类型: POST
+
+请求Body:
+```
+{
+    "fileName": "Main.java",
+    "methodName": "main",
+    "className": "com.xxg.jcatch.Main",
+    "stackTrace": "java.lang.ArithmeticException: / by zero\n\tat com.xxg.jcatch.Main.main(Main.java:16)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat com.intellij.rt.execution.application.AppMain.main(AppMain.java:144)\n",
+    "message": "/ by zero",
+    "lineNumber": 16,
+    "exceptionName": "java.lang.ArithmeticException"
+}
+```
+
+响应Body:
+```
+{
+    "success": true
+}
+```
+
+
 ## 客户端接入
 ### Java
 JCatch Java客户端 传送门: https://github.com/wucao/jcatch-java-client
