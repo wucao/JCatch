@@ -43,7 +43,7 @@ PHP异常:
 
 ## API
 ### 提交一条Exception
-URL: http://<your baseUrl>/api/submitExceptionJson?appId=<your appId>
+URL: http://[your baseUrl]/api/submitExceptionJson?appId=[your appId]
 
 请求类型: POST
 
