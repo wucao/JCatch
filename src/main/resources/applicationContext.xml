@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   	http://www.springframework.org/schema/beans/spring-beans.xsd
+	   	http://www.springframework.org/schema/context
+	   	http://www.springframework.org/schema/context/spring-context.xsd
+	   	http://www.springframework.org/schema/task
+	   	http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<!-- 自动加载，过滤掉带有@Controller注解的类 -->
+	<context:component-scan base-package="com.xxg.jcatch">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 启用定时任务 -->
+	<task:annotation-driven />
+
+	<import resource="springSecurity.xml" />
+	<import resource="MyBatis.xml" />
+	<import resource="messageService.xml" />
+
+</beans>
