@@ -3,18 +3,24 @@
 
 JCatch提供了一种方案, 当程序发生异常时, 通过JCatch平台接口提交到JCatch平台, 由JCatch平台统一管理所有异常, 这样可以方便查询, 并且JCatch平台提供异常监控功能, 当应用程序发生异常时会以邮件方式提醒相关人员.
 
+应用列表:
 ![应用列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14861.jpeg)
 
-![应用列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14869.jpeg)
+应用配置:
+![应用配置](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14869.jpeg)
 
+异常列表:
 ![异常列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14863.jpeg)
 
+异常详情:
 ![异常详情1](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14865.jpeg)
 
 ![异常详情2](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14866.jpeg)
 
+邮件通知:
 ![邮件通知](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14868.jpeg)
 
+PHP异常:
 ![PHP异常](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14870.jpeg)
 
 
