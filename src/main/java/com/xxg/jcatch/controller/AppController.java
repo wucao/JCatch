@@ -1,8 +1,7 @@
 package com.xxg.jcatch.controller;
 
-import com.xxg.jcatch.mbg.bean.TApp;
-import com.xxg.jcatch.mbg.bean.TAppExample;
-import com.xxg.jcatch.mbg.mapper.TAppMapper;
+import com.xxg.jcatch.bean.AppInfo;
+import com.xxg.jcatch.mapper.AppMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -21,12 +20,12 @@ import java.util.UUID;
 public class AppController {
 
     @Autowired
-    private TAppMapper appMapper;
+    private AppMapper appMapper;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView index() {
 
-        List<TApp> list = appMapper.selectByExample(new TAppExample());
+        List<AppInfo> list = appMapper.selectAll();
 
         ModelAndView mv = new ModelAndView("appList");
         mv.addObject("list", list);
@@ -41,17 +40,17 @@ public class AppController {
     }
 
     @RequestMapping(value = "/createOrEdit", method = RequestMethod.POST)
-    public String createOrEdit(TApp app) {
+    public String createOrEdit(AppInfo app) {
 
         if(StringUtils.hasText(app.getId())) {
             app.setSecretKey(null);
-            appMapper.updateByPrimaryKeySelective(app);
+            appMapper.update(app);
         } else {
             String id = UUID.randomUUID().toString().replace("-", "");
             String secretKey = UUID.randomUUID().toString().replace("-", "");
             app.setId(id);
             app.setSecretKey(secretKey);
-            appMapper.insertSelective(app);
+            appMapper.insert(app);
         }
 
         return "redirect:/app/index";
@@ -60,7 +59,7 @@ public class AppController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView edit(String id) {
 
-        TApp app = appMapper.selectByPrimaryKey(id);
+        AppInfo app = appMapper.selectByPrimaryKey(id);
 
         ModelAndView mv = new ModelAndView("appCreateOrEdit");
         mv.addObject("app", app);

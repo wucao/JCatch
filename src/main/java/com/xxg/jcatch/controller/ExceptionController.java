@@ -1,10 +1,9 @@
 package com.xxg.jcatch.controller;
 
+import com.xxg.jcatch.bean.ExceptionInfo;
 import com.xxg.jcatch.exception.ResourceNotFoundException;
-import com.xxg.jcatch.mbg.bean.TException;
-import com.xxg.jcatch.mbg.bean.TExceptionExample;
-import com.xxg.jcatch.mbg.mapper.TAppMapper;
-import com.xxg.jcatch.mbg.mapper.TExceptionMapper;
+import com.xxg.jcatch.mapper.AppMapper;
+import com.xxg.jcatch.mapper.ExceptionMapper;
 import com.xxg.jcatch.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,14 +26,13 @@ public class ExceptionController {
 
     private static final long PAGE_SIZE = 15;
 
-    @Autowired
-    private TExceptionMapper exceptionMapper;
+    private ExceptionMapper exceptionMapper;
 
     @Autowired
-    private TAppMapper appMapper;
+    private AppMapper appMapper;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index(TException exception,
+    public ModelAndView index(ExceptionInfo exception,
                               @RequestParam(value = "startDate", required = false) String startDate,
                               @RequestParam(value = "endDate", required = false) String endDate,
                               @RequestParam(value = "p", required = false, defaultValue = "1") long p) throws ParseException {
@@ -47,7 +45,7 @@ public class ExceptionController {
             throw new ResourceNotFoundException();
         }
 
-        TExceptionExample example = new TExceptionExample();
+        ExceptionExample example = new TExceptionExample();
         TExceptionExample.Criteria criteria = example.createCriteria();
         criteria.andAppIdEqualTo(appId);
         if(StringUtils.hasText(exception.getRemoteAddr())) {
@@ -107,7 +105,7 @@ public class ExceptionController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public ModelAndView detail(int id) {
-        TException exception = exceptionMapper.selectByPrimaryKey(id);
+        ExceptionInfo exception = exceptionMapper.selectByPrimaryKey(id);
         if(exception == null) {
             throw new ResourceNotFoundException();
         }

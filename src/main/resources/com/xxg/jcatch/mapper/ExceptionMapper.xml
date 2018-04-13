@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxg.jcatch.mapper.ExceptionMapper">
+
+    <select id="getExistentExceptionId">
+        select id from t_exception where app_id = #{appId}
+        <choose>
+            <when test="className != null">
+                and class_name = #{className}
+            </when>
+            <otherwise>
+                and class_name is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="exceptionName != null">
+                and exception_name = #{exceptionName}
+            </when>
+            <otherwise>
+                and exception_name is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="fileName != null">
+                and file_name = #{fileName}
+            </when>
+            <otherwise>
+                and file_name is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="lineNumber != null">
+                and line_number = #{lineNumber}
+            </when>
+            <otherwise>
+                and line_number is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="remoteAddr != null">
+                and remote_addr = #{remoteAddr}
+            </when>
+            <otherwise>
+                and remote_addr is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="message != null">
+                and message = #{message}
+            </when>
+            <otherwise>
+                and message is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="stackTrace != null">
+                and stack_trace = #{stackTrace}
+            </when>
+            <otherwise>
+                and stack_trace is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="methodName != null">
+                and method_name = #{methodName}
+            </when>
+            <otherwise>
+                and method_name is null
+            </otherwise>
+        </choose>
+        limit 1
+    </select>
+
+</mapper>

@@ -1,10 +1,11 @@
 package com.xxg.jcatch.controller;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xxg.jcatch.api.ApiResult;
-import com.xxg.jcatch.mbg.bean.TException;
-import com.xxg.jcatch.mbg.mapper.TAppMapper;
+import com.xxg.jcatch.bean.ExceptionInfo;
+import com.xxg.jcatch.mapper.AppMapper;
 import com.xxg.jcatch.service.ExceptionSubmitService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -24,10 +25,10 @@ import java.io.*;
 public class ApiController {
 
     @Autowired
-    private TAppMapper appMapper;
+    private ExceptionSubmitService exceptionSubmitService;
 
     @Autowired
-    private ExceptionSubmitService exceptionSubmitService;
+    private AppMapper appMapper;
 
     @ResponseBody
     @RequestMapping(value = "/submitExceptionJson", method = RequestMethod.POST)
@@ -40,33 +41,12 @@ public class ApiController {
             return ApiResult.fail("Unknown appId: " + appId);
         }
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-
-        TException tException = new TException();
-        tException.setAppId(appId);
-        tException.setRemoteAddr(request.getRemoteAddr());
-        if(jsonObject.has("stackTrace")) {
-            tException.setStackTrace(jsonObject.getString("stackTrace"));
-        }
-        if(jsonObject.has("exceptionName")) {
-            tException.setExceptionName(jsonObject.getString("exceptionName"));
-        }
-        if(jsonObject.has("message")) {
-            tException.setMessage(jsonObject.getString("message"));
-        }
-        if(jsonObject.has("className")) {
-            tException.setClassName(jsonObject.getString("className"));
-        }
-        if(jsonObject.has("fileName")) {
-            tException.setFileName(jsonObject.getString("fileName"));
-        }
-        if(jsonObject.has("methodName")) {
-            tException.setMethodName(jsonObject.getString("methodName"));
-        }
-        if(jsonObject.has("lineNumber")) {
-            tException.setLineNumber(jsonObject.getInt("lineNumber"));
-        }
-        exceptionSubmitService.submit(tException);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ExceptionInfo exceptionInfo = mapper.readValue(jsonString, ExceptionInfo.class);
+        exceptionInfo.setAppId(appId);
+        exceptionInfo.setRemoteAddr(request.getRemoteAddr());
+        exceptionSubmitService.submit(exceptionInfo);
 
         return ApiResult.success();
     }
