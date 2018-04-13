@@ -60,13 +60,6 @@
 				<configuration>
 					<overwrite>true</overwrite>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

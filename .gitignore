@@ -1,5 +1,3 @@
 *.iml
 /target
 /.idea
-/src/main/java/com/xxg/jcatch/mbg
-/src/main/resources/com/xxg/jcatch/mbg/mapper

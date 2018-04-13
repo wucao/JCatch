@@ -12,26 +12,21 @@ JCatch提供了一种方案，当程序发生异常时，通过JCatch平台接�
 异常列表:
 ![异常列表](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14863.jpeg)
 
-异常详情:
-![异常详情1](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14865.jpeg)
-
-![异常详情2](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14866.jpeg)
-
-邮件通知:
-![邮件通知](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14868.jpeg)
+Java异常详情:
+![Java异常](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG164.jpeg)
 
 PHP异常:
 ![PHP异常](http://7xi3wi.com1.z0.glb.clouddn.com/image/jpg/WechatIMG14870.jpeg)
+
+邮件通知:
+![邮件通知](http://7xi3wi.com1.z0.glb.clouddn.com/WechatIMG163.jpg)
 
 
 ## 运行/部署JCatch
 ### MySQL数据库
 使用MySQL数据库执行doc/sql.sql中的SQL脚本创建表
 
-修改`src/main/resources/MyBatis.xml`和`src/main/resources/generatorConfig.xml`文件中的数据库连接
-
-### 运行MyBatis Generator生成代码
-`com.xxg.jcatch.mbg`包下代码是通过MyBatis Generator自动生成的，创建好MySQL数据表并且配置好`src/main/resources/generatorConfig.xml`文件中的数据库配置后，可以运行`mvn mybatis-generator:generate`命令生成代码
+修改`src/main/resources/MyBatis.xml`文件中的数据库连接
 
 ### 配置登录管理员账户
 默认管理员账户： 用户名 admin  密码 xxg
@@ -43,6 +38,10 @@ PHP异常:
 
 ### 打包
 `mvn package`命令生成war包，可部署在Tomcat、Jetty等服务器中
+
+### 运行MyBatis Generator生成代码
+如果二次开发需要修改表结构, 修改`src/main/resources/generatorConfig.xml`文件中的数据库连接, `com.xxg.jcatch.mbg`包下代码是通过MyBatis Generator自动生成的，可以运行`mvn mybatis-generator:generate`命令生成代码
+
 
 ## API
 ### 提交一条Exception
