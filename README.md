@@ -154,30 +154,38 @@ public function report(Exception $exception)
 
 class MY_Exceptions extends CI_Exceptions
 {
+    public function log_exception($severity, $message, $filepath, $line)
+    {
+        parent::log_exception($severity, $message, $filepath, $line);
 
-	public function log_exception($severity, $message, $filepath, $line)
-	{
-		parent::log_exception($severity, $message, $filepath, $line);
+        $data = array(
+            "message" => $message,
+            "fileName" => $filepath,
+            "lineNumber" => $line
+        );
 
-		$json = json_encode(array(
-			"message" => $message,
-			"fileName" => $filepath,
-			"lineNumber" => $line
-		));
+        $trace = debug_backtrace();
+        if (count($trace) > 1 && $trace[1]["function"] === "_exception_handler") {
+            $exception = $trace[1]["args"][0];
+            $data["stackTrace"] = $exception->getTraceAsString();
+            $data["exceptionName"] = get_class($exception);
+        }
 
-		$ch = curl_init('http://<your baseUrl>/api/submitExceptionJson?appId=<your appId>');
-		curl_setopt_array($ch, array(
-			CURLOPT_POST => TRUE,
-			CURLOPT_RETURNTRANSFER => TRUE,
-			CURLOPT_HTTPHEADER => array(
-				'Content-Type: application/json'
-			),
-			CURLOPT_POSTFIELDS => $json,
-			CURLOPT_CONNECTTIMEOUT => 2,
-			CURLOPT_TIMEOUT => 4,
-		));
-		curl_exec($ch);
-	}
+        $json = json_encode($data);
+
+        $ch = curl_init('http://<your baseUrl>/api/submitExceptionJson?appId=<your appId>');
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => TRUE,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+            CURLOPT_POSTFIELDS => $json,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_TIMEOUT => 4,
+        ));
+        curl_exec($ch);
+    }
 }
 ```
 当发生错误或异常时，CI框架会自动调用以上代码，将异常信息提交到JCatch API。
